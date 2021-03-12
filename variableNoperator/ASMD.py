@@ -1,0 +1,13 @@
+a = int(input("첫번째 숫자 : ")) 
+b = int(input("두번째 숫자 : "))
+print("받은 숫자를 더하면", a+b, "입니다")
+print("받은 숫자를 빼면", a-b, "입니다")
+print("받은 숫자를 곱하면", a*b, "입니다")
+print("받은 숫자를 나누면", a/b, "입니다")
+
+a = int(input("첫번째 숫자 : ")) 
+b = int(input("두번째 숫자 : "))
+print(a, "+",b,"=",a+b)
+print(a, "-",b,"=",a-b)
+print(a, "*",b,"=",a*b)
+print(a, "/",b,"=",a/b)
