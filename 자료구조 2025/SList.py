@@ -93,7 +93,34 @@ class SList:
         # 역순으로 재구성된 리스트의 정보를 현재 리스트로 옮겨온다.
         self.head = revList.head
         self.count = revList.count
-
+    #-----------------------------------------------
+    # 정렬 되지 않은 현재의 리스트를 정렬 상태로 재구성한다.
+    def sort(self, order="UP"):
+        sorted = SList()    #빈 SList를 하나 생성한다.
+        # 현재 리스트의 노드를 하나씩 차례대로 꺼내서 sorted 리스트에 insertSorted로 추가한다.
+        while self.count:
+            sorted.insertSorted2(self.unshift(), order)
+        
+        self.head = sorted.head
+        self.count = sorted.count
+    #-----------------------------------------------
+    # 현재 리스트의 복사본 리스트를 생성하여 반환하기
+    def copy(self):
+        newList = SList()
+        current = self.head
+        while current is not None:
+            newList.appendValue(current.data)
+            current = current.next
+        return newList
+    #-----------------------------------------------
+    # 현재 단순 연결 리스트의 파이썬 리스트 버전을 생성하여 반환한다.
+    def list(self):
+        list = []
+        current = self.head
+        while current is not None:
+            list.append(current.data)
+            current = current.next
+        return list
     #-----------------------------------------------
     # 리스트의 정렬 상태를 유지하면서 새 노드를 추가한다.
     def insertSorted(self, newNode):
@@ -115,7 +142,39 @@ class SList:
             newNode.next = current.next
             current.next = newNode
             self.count += 1
-            
+
+    def insertSorted2(self, newNode, order="UP"):
+        if self.head is None:
+            self.head = newNode
+            self.count = 1
+        else:
+            # 새 노드(newNode)가 삽입될 위치를 찾기 위한 준비를 한다.
+            current = self.head # 새 노드보다 큰 값을 가진 노드를 차례대로 찾아가기 위한 변수 (첫 노드부터 비교 시작)
+            previous = None # current가 다음 노드로 이동할 때, 현재의 current의 값을 백업하며 따라간다.
+
+            while current is not None: # 리스트의 마지막 노드까지 비교할 예정.
+                if order.upper() == "UP":
+                    check = newNode.data > current.data
+                else:  # order == "DOWN"
+                    check = newNode.data < current.data
+
+                if check:
+                    previous = current
+                    current = current.next
+                else:
+                    if previous is None:
+                        newNode.next = self.head
+                        self.head = newNode
+                        self.count += 1
+                    else:
+                        previous.next = newNode
+                        newNode.next = current
+                        self.count += 1
+                    return
+            # 리스트의 마지막에 새 노드를 연결해야 하는 경우
+            previous.next = newNode
+            self.count += 1
+
     #-----------------------------------------------
     # 특정값을 가진 노드를 연결 리스트에서 제거한다.
     # 반환값 : 제거한 노드를 반환, 없으면 None
@@ -194,13 +253,16 @@ class SList:
 
 #===================================================
 
-lst = SList()   #빈 리스트 하나 생성.
-lst.insertSorted(Node(100))
-lst.insertSorted(Node(200))
-lst.insertSorted(Node(300))
-lst.insertSorted(Node(300))
-lst.insertSorted(Node(400))
-lst.insertSorted(Node(100))
-lst.insertSorted(Node(150))
-lst.showList()
+slist = SList()
+slist.appendValue(30)
+slist.appendValue(130)
+slist.appendValue(50)
+slist.appendValue(40)
+slist.appendValue(230)
+slist.appendValue(10)
+slist.showList()
+slist.sort()
+slist.showList()
+for item in slist.list():
+    print(item)
 #===================================================
