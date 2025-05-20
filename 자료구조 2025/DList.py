@@ -56,8 +56,8 @@ class DList:
     def insertBefore(self, targetNode, value):
         if targetNode is None:
             return
-        if targetNode is None:
-            self.append(value)
+        if targetNode is self.head:
+            self.insertFront(value)
         else:
             newNode = Node(value)
             newNode.next = targetNode
@@ -69,6 +69,8 @@ class DList:
     def insertAfter(self, targetNode, value):
         if targetNode is None:
             return
+        if targetNode is self.tail:
+            self.append(value)
         else:
             newNode = Node(value)
             newNode.next = targetNode.next
@@ -76,6 +78,42 @@ class DList:
             targetNode.next.prev = newNode
             targetNode.next = newNode
             self.count += 1
+    #-------------------------------------------------------
+    # 현재 리스트(정렬되어 있는 것으로 간주) 상태를 유지하면서 새 값(value)를 가진 노드를 추가한다.
+    # 같은 값을 가진 노드가 이미 있으면 그 노드 앞에 추가한다.
+    # 반환값 없음.
+    def insertSorted(self, value):
+    #2. 노드가 1개 이상인 경우
+    #   value보다 크거나 같은 값을 찾아 그 앞에 Node(Value)를 삽입한다.
+        current = self.head
+        while current is not None:
+            if current.data >= value:
+                self.insertBefore(current, value)
+                return
+            else:
+                current = current.next
+        #빈 리스트이거나 추가하려는 값이 기존 모든 노드들의 값보다 큰 경우 다음 코드가 실행된다.
+        self.append(value)
+    #-------------------------------------------------------
+    # 리스트에서 지정된 노드(targetNode)를 삭제한다. (연결구조에서 배제한다.)
+    # 반환값: 없음.
+    def remove(self, targetNode):
+        if targetNode is None:
+            return
+        if self.count == 1:
+            self.head = None
+            self.tail = None
+        elif self.head is targetNode:
+            self.head = targetNode.next
+            targetNode.next.prev = None
+        elif self.tail is targetNode:
+            self.tail = targetNode.prev
+            targetNode.prev.next = None
+        else:
+            targetNode.next.prev = targetNode.prev
+            targetNode.prev.next = targetNode.next
+        self.count -= 1
+        del targetNode
     #-------------------------------------------------------
     def showList(self):
         print("[head]->", end="")
@@ -87,13 +125,13 @@ class DList:
         #리스트의 노드 개수를 출력하면서 리스트 출력 마무리.
         print(f"({self.count} nodes.)")
     #-------------------------------------------------------
-    #-------------------------------------------------------
 #===========================================================
 dlist = DList()
-dlist.append(100)
+dlist.insertSorted(50)
+dlist.insertSorted(150)
+dlist.insertSorted(30)
+dlist.insertSorted(250)
+dlist.insertSorted(100)
 dlist.showList()
-dlist.append(200)
-dlist.showList()
-dlist.append(300)
-dlist.insertBefore(dlist.find(200), 50)
+dlist.remove(dlist.find(150))
 dlist.showList()
