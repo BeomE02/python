@@ -21,20 +21,6 @@ class Queue(DList):
             super().remove(self.head)
             return returnValue 
 #=======================================================
-# Infix 수식 문자열을 읽어 token(연산자, 피연산자, 괄호) 단위로 분리하여 순서대로 queue에 저장하고
-# queue를 반환한다.
-# 예 : "23.4 * (43.4 + 35) / 23.1243" => ["23.4", "*"", "(", "43.4", "+"", "35", ")", "/", "23.1243"]
-def toTokens(strInfix):
-    queue = Queue()
-    lst = []
-    lst.append(token)
-    queue.add(token)
-    pass
-
-def infix2postfix(lst, queue):
-    pass
-    
-#=======================================================
 queue = Queue()
 queue.add(100)
 queue.add(200)
