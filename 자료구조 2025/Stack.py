@@ -87,4 +87,3 @@ def checkParenthese(st):
         return True
 
 #=================================================================================
-print(checkParenthese("(([])))"))
